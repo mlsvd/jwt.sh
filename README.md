@@ -1,5 +1,12 @@
 # jwt.sh
+
+> **Fork** of [AGascon/jwt.sh](https://github.com/AGascon/jwt.sh) by Alejandro Gascón, with additional improvements not yet merged upstream.
+
 Bash Script to create JWT tokens with HS256 and RS256
+
+## Changes from upstream
+
+- **`-x | --passphrase`** — passphrase support for encrypted RSA private keys, enabling non-interactive execution
 
 ### Params:
 ```
@@ -11,6 +18,7 @@ Bash Script to create JWT tokens with HS256 and RS256
 		* r | R | RSA | RS256  -> for RSA SHA256. This will require to set -P option
 	-S | --secret <value>		Secret to be used with HS256
 	-P | --pub-key | --pub <file>	Path to file with the Private RSA to sign the token
+	-x | --passphrase <value>	Passphrase for the Private RSA key for non-interactive execution
 	-H | --header <value>		JSON value to set as header part of the JWT. If you don't specify this option, It will be generated automatically with -k | --kid value
 	-p | --payload <value>		JSON value to set as payload part of the JWT
 	-k | --kid <value>		Set the kid value to be used when autogenerating the header

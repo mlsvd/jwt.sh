@@ -1,8 +1,9 @@
 #! /bin/bash
-# Version: 0.2
-# Desc:JWT encode and decode
-# Author: Alejandro Gascón
-# mail: gascon.leon@gmail.com
+# Version: 0.3
+# Desc: JWT encode and decode
+# Original author: Alejandro Gascón <gascon.leon@gmail.com>
+# Fork maintained by: Dmitri Malisev <malisev.dmitri@gmail.com>
+# Changes (2026-03-09): Added -x|--passphrase option for encrypted RSA private keys
 # PENDING:
 # - Include decoding functions
 # - Add support for more algorithms
