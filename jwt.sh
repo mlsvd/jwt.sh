@@ -16,6 +16,7 @@ ayuda() {
 	echo -e "\t\t* r | R | RSA | RS256  -> for RSA SHA256. This will require to set -P option"
 	echo -e "\t-S | --secret <value>\t\tSecret to be used with HS256"
 	echo -e "\t-P | --pub-key | --pub <file>\tPath to file with the Private RSA to sign the token"
+	echo -e "\t-x | --passphrase <value>\tPassphrase for the Private RSA key for non-interactive execution"
 	echo -e "\t-H | --header <value>\t\tJSON value to set as header part of the JWT.\n\t\t\t\t\tIf you don't specify this option, It will be generated automatically with -k | --kid value"
 	echo -e "\t-p | --payload <value>\t\tJSON value to set as payload part of the JWT.\n\t\t\t\t\tIf payload is not specified, it will be created with default values for exp (+1 hour), iat (now), nbf (-10 seconds) and sub (jwt.sh)"
 	echo -e "\t-k | --kid <value>\t\tSet the kid value to be used when autogenerating the header"
@@ -71,6 +72,10 @@ while (( $# )); do
 			pub_key=$2
 			shift;
 		;;
+    -x | --passphrase)
+			passphrase=$2
+			shift;
+		;;
 	esac;
 	shift;
 done
@@ -93,7 +98,7 @@ case $cipher in
 	;;
 	RS256)
 		[[ "$pub_key" == "" ]] && echo "You need to specify a public key file with -P <path>" && exit 2
-		signature=$(echo -n "${header}.${payload}" | openssl dgst -sha256 -binary -sign ${pub_key} | openssl enc -base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
+		signature=$(echo -n "${header}.${payload}" | openssl dgst -sha256 -binary -sign ${pub_key} ${passphrase:+-passin pass:${passphrase}} | openssl enc -base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n' )
 		[ $? -ne 0 ] && echo "Some problem occur when generating signature. Error: $signature" && exit 3
 	;;
 	*)
